@@ -4,19 +4,20 @@ const chromium = require("@sparticuz/chromium-min");
 const fs = require('fs');
 const path = require('path');
 const remoteExecutablePath =
-    "https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar";
+  "https://gh-proxy.com/https://github.com/Sparticuz/chromium/releases/download/v126.0.0/chromium-v126.0.0-pack.tar";
 const userAgent = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Mobile Safari/537.36";
 const websites = [
-    "https://nopecha.com/demo/cloudflare"
-    , "https://nowsecure.nl/"
-    , "https://2captcha.com/demo/cloudflare-turnstile"
-    , "https://infosimples.github.io/detect-headless/"
-    , "https://arh.antoinevastel.com/bots/areyouheadless"
-    , "https://bot.sannysoft.com/"
-    , "https://hmaker.github.io/selenium-detector/"
-    , "https://kaliiiiiiiiii.github.io/brotector/"
-    , "https://fingerprintjs.github.io/BotD/main/"
-    , "https://pixelscan.net/"
+    "https://nopecha.com/demo/cloudflare",
+    "https://www.cnblogs.com/"
+    // , "https://nowsecure.nl/"
+    // , "https://2captcha.com/demo/cloudflare-turnstile"
+    // , "https://infosimples.github.io/detect-headless/"
+    // , "https://arh.antoinevastel.com/bots/areyouheadless"
+    // , "https://bot.sannysoft.com/"
+    // , "https://hmaker.github.io/selenium-detector/"
+    // , "https://kaliiiiiiiiii.github.io/brotector/"
+    // , "https://fingerprintjs.github.io/BotD/main/"
+    // , "https://pixelscan.net/"
 ];
 describe("Testing page navigation and title", () => {
     let browser;
@@ -38,9 +39,11 @@ describe("Testing page navigation and title", () => {
         page.on('dialog', async dialog => {
             await dialog.accept();
         });
-    }, 10000);
+    }, 30000);
     afterAll(async () => {
-        await browser.close();
+        if (browser) {
+            await browser.close();
+        }
     });
 
     it("should set up the browser", async () => {

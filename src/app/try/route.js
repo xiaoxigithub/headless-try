@@ -35,12 +35,19 @@ export async function GET(request) {
             "--disable-features=site-per-process",
             "-disable-site-isolation-trials",
           ]
-        : [...chromium.args, "--disable-blink-features=AutomationControlled"],
+        : [
+            ...chromium.args, 
+            "--disable-blink-features=AutomationControlled",
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage",
+            "--disable-gpu",
+          ],
       defaultViewport: { width: 1920, height: 1080 },
       executablePath: isDev
         ? localExecutablePath
         : await chromium.executablePath(remoteExecutablePath),
-      headless: isDev ? false : "new",
+      headless: isDev ? false : chromium.headless,
       debuggingPort: isDev ? 9222 : undefined,
     });
 
@@ -76,6 +83,8 @@ export async function GET(request) {
       { status: 500 }
     );
   } finally {
-    await browser.close();
+    if (browser) {
+      await browser.close().catch(e => console.error('关闭浏览器时出错:', e));
+    }
   }
 }
