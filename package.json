@@ -9,6 +9,9 @@
     "lint": "next lint",
     "test": "jest"
   },
+  "engines": {
+    "node": ">=18.17.1"
+  },
   "dependencies": {
     "@sparticuz/chromium-min": "^126.0.0",
     "clsx": "^2.1.1",
