@@ -18,6 +18,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## 环境变量配置
+
+默认开发环境（dev）环境。在生产环境中，需要配置以下环境变量：
+
+- `WS_EDPOINT`：用于连接远程浏览器的WebSocket端点
+
+在Vercel部署时，请在项目设置中添加此环境变量以确保正常运行。
+
 ## Features
 
 - Support webpage screenshots

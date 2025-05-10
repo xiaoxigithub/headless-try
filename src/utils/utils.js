@@ -7,6 +7,7 @@ export const localExecutablePath =
 export const remoteExecutablePath =
   "https://gh-proxy.com/https://github.com/Sparticuz/chromium/releases/download/v126.0.0/chromium-v126.0.0-pack.tar";
 
+// 本地使用开发环境，远程使用生产环境
 export const isDev = process.env.NODE_ENV === "development";
 
 export const userAgent =

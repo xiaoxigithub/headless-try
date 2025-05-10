@@ -27,29 +27,37 @@ export async function GET(request) {
 
   let browser = null;
   try {
-    browser = await puppeteer.launch({
-      ignoreDefaultArgs: ["--enable-automation"],
-      args: isDev
-        ? [
+    // 本地使用开发环境，远程使用生产环境
+    if (!isDev && process.env.WS_EDPOINT) {
+      browser = await puppeteer.connect({
+        browserWSEndpoint: process.env.WS_EDPOINT,
+        defaultViewport: { width: 1920, height: 1080 },
+      });
+    } else {
+      browser = await puppeteer.launch({
+        ignoreDefaultArgs: ["--enable-automation"],
+        args: isDev
+          ? [
             "--disable-blink-features=AutomationControlled",
             "--disable-features=site-per-process",
             "-disable-site-isolation-trials",
           ]
-        : [
-            ...chromium.args, 
+          : [
+            ...chromium.args,
             "--disable-blink-features=AutomationControlled",
             "--no-sandbox",
             "--disable-setuid-sandbox",
             "--disable-dev-shm-usage",
             "--disable-gpu",
           ],
-      defaultViewport: { width: 1920, height: 1080 },
-      executablePath: isDev
-        ? localExecutablePath
-        : await chromium.executablePath(remoteExecutablePath),
-      headless: isDev ? false : chromium.headless,
-      debuggingPort: isDev ? 9222 : undefined,
-    });
+        defaultViewport: { width: 1920, height: 1080 },
+        executablePath: isDev
+          ? localExecutablePath
+          : await chromium.executablePath(remoteExecutablePath),
+        headless: isDev ? false : chromium.headless,
+        debuggingPort: isDev ? 9222 : undefined,
+      });
+    }
 
     const pages = await browser.pages();
     const page = pages[0];
